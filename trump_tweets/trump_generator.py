@@ -5,6 +5,8 @@ cs20.stanford.edu
 Danijar Hafner (mail@danijar.com)
 & Chip Huyen (chiphuyen@cs.stanford.edu)
 Lecture 11
+
+Modified by Robin Yuen (robin.ysh@gmail.com)
 """
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
