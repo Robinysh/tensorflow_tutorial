@@ -53,15 +53,11 @@ class CharRNN(object):
     def __init__(self, model):
         self.model = model
         self.path = 'data/' + model + '.txt'
-        if 'trump' in model:
-            self.vocab = (" $%'()+,-./123456790:;=?ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                    "'\"_abcdefghijklmnopqrstuvwxyz{|}@#➡📈")
-        else:
-            self.vocab = (" $%'()+,-./0123456789:;=?ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                    "\\^_abcdefghijklmnopqrstuvwxyz{|}")
+        self.vocab = (" $%'()+,-./123456790:;=?ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                "'\"_abcdefghijklmnopqrstuvwxyz{|}@#➡📈")
 
         self.seq = tf.placeholder(tf.int32, [None, None])
-        self.temp = tf.constant(.5)
+        self.temp = tf.constant(.2)
         self.hidden_sizes = [128, 256]
         self.batch_size = 128
         self.lr = 0.0003
@@ -89,6 +85,7 @@ class CharRNN(object):
                                                         labels=seq[:, 1:])
         self.loss = tf.reduce_sum(loss)
         self.sample = tf.multinomial(self.logits[:, -1] / self.temp, 1)[:, 0] 
+        #self.sample = tf.multinomial(tf.exp(self.logits[:, -1] / 1.5), 1)[:, 0] 
         self.opt = tf.train.AdamOptimizer(self.lr).minimize(self.loss, global_step=self.gstep)
 
     def train(self):
